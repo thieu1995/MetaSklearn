@@ -2,39 +2,39 @@
 Installation
 ============
 
-* Install the `current PyPI release <https://pypi.python.org/pypi/graforvfl />`_
+* Install the `current PyPI release <https://pypi.python.org/pypi/metasklearn />`_
 
 .. code-block:: bash
 
-	$ pip install graforvfl==2.0.0
+    $ pip install metasklearn==0.1.0
 
 
 * Install directly from source code.
 
 .. code-block:: bash
 
-   $ git clone https://github.com/thieu1995/GrafoRVFL.git
-   $ cd GrafoRVFL
-   $ python setup.py install
+    $ git clone https://github.com/thieu1995/MetaSklearn.git
+    $ cd MetaSklearn
+    $ python setup.py install
 
 * In case, you want to install the development version from Github
 
 .. code-block:: bash
 
-   $ pip install git+https://github.com/thieu1995/GrafoRVFL
+   $ pip install git+https://github.com/thieu1995/MetaSklearn
 
 
-After installation, you can check the version of installed GrafoRVFL::
+After installation, you can check the version of installed MetaSklearn::
 
    $ python
-   >>> import graforvfl
-   >>> graforvfl.__version__
+   >>> import metasklearn
+   >>> metasklearn.__version__
 
 =========
 Tutorials
 =========
 
-In this section, we will explore the usage of the GrafoRVFL model with the assistance of a dataset. While all the
+In this section, we will explore the usage of the MetaSklearn model with the assistance of a dataset. While all the
 preprocessing steps mentioned below can be replicated using Scikit-Learn, we have implemented some utility functions
 to provide users with convenience and faster usage.
 
@@ -42,13 +42,12 @@ to provide users with convenience and faster usage.
 Provided classes
 ----------------
 
-Classes that hold Models and Dataset
+Classes that hold Searcher and Dataset
 
 .. code-block:: python
 
-	from graforvfl import DataTransformer, Data
-	from graforvfl import RvflRegressor, RvflClassifier
-	from graforvfl import GfoRvflCV
+	from metasklearn import DataTransformer, Data
+	from metasklearn import MetaSearchCV
 
 
 `DataTransformer` class
@@ -59,7 +58,7 @@ We provide many scaler classes that you can select and make a combination of tra
 
 .. code-block:: python
 
-	from graforvfl import DataTransformer
+	from metasklearn import DataTransformer
 	import pandas as pd
 	from sklearn.model_selection import train_test_split
 
@@ -83,7 +82,7 @@ We provide many scaler classes that you can select and make a combination of tra
 
 .. code-block:: python
 
-	from graforvfl import Data
+	from metasklearn import Data
 	import pandas as pd
 
 	dataset = pd.read_csv('Position_Salaries.csv')
@@ -103,83 +102,62 @@ We provide many scaler classes that you can select and make a combination of tra
 	data.y_test = scaler_y.transform(data.y_test)
 
 
+`Searcher` class
+----------------
 
-
-`Neural Network` class
-----------------------
-
-.. code-block:: python
-
-	from graforvfl import RvflRegressor, RvflClassifier, GfoRvflCV, IntegerVar, StringVar
-
-	## 1. Use standard RVFL model for regression problem
-	model = RvflRegressor(size_hidden=10, act_name='sigmoid', weight_initializer="random_uniform", alpha=0.5)
-
-	## 2. Use standard RVFL model for classification problem
-	model = RvflClassifier(size_hidden=10, act_name='sigmoid', weight_initializer="random_normal", alpha=0)
-
-
-	## 3. Use Gradient Free Optimization to fine-tune the hyper-parameter of RVFL network for regression problem
-	# Design the boundary (parameters)
-	my_bounds = [
-	    IntegerVar(lb=2, ub=1000, name="size_hidden"),
-	    StringVar(valid_sets=("none", "relu", "leaky_relu", "celu", "prelu", "gelu",
-	                          "elu", "selu", "rrelu", "tanh", "sigmoid"), name="act_name"),
-	    StringVar(valid_sets=("orthogonal", "he_uniform", "he_normal", "glorot_uniform",
-	                           "glorot_normal", "lecun_uniform", "lecun_normal", "random_uniform",
-	                           "random_normal"), name="weight_initializer")
-	]
-	opt_paras = {"name": "WOA", "epoch": 10, "pop_size": 20}
-	model = GfoRvflCV(problem_type="regression", bounds=my_bounds,
-	                optim="OriginalWOA", optim_params=opt_paras,
-	                scoring="MSE", cv=3, seed=42, verbose=True)
-
-
-Supported functions in `model` object
--------------------------------------
+In this example, we will use `MetaSearchCV` to search for the best hyper-parameters of the SVM model.
 
 .. code-block:: python
 
-	from graforvfl import RvflRegressor, Data
+    from sklearn.svm import SVC
+    from sklearn.datasets import load_iris
+    from sklearn.model_selection import train_test_split
+    from metasklearn import MetaSearchCV, FloatVar, StringVar
 
-	data = Data()       # Assumption that you have provided this object like above
+    # Load dataset
+    X, y = load_iris(return_X_y=True)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-	model = RvflRegressor(size_hidden=10, act_name='sigmoid', weight_initializer="random_uniform", alpha=0.5)
+    # Define param bounds for SVC
 
-	## Train the model
-	model.fit(data.X_train, data.y_train)
+    # param_bounds = {          ==> This is for GridSearchCV, show you how to convert to our MetaSearchCV
+    #     "C": [0.1, 100],
+    #     "gamma": [1e-4, 1],
+    #     "kernel": ["linear", "rbf", "poly"]
+    # }
 
-	## Predicting a new result
-	y_pred = model.predict(data.X_test)
+    param_bounds = [
+        FloatVar(lb=0., ub=100., name="C"),
+        FloatVar(lb=1e-4, ub=1., name="gamma"),
+        StringVar(valid_sets=("linear", "rbf", "poly"), name="kernel")
+    ]
 
-	## Calculate metrics using score or scores functions.
-	print(model.score(data.X_test, data.y_test, method="MAE"))
-	print(model.scores(data.X_test, data.y_test, list_metrics=["MAPE", "NNSE", "KGE", "MASE", "R2", "R", "R2S"]))
+    # Initialize and fit MetaSearchCV
+    searcher = MetaSearchCV(
+        estimator=SVC(),
+        param_bounds=param_bounds,
+        task_type="classification",
+        optim="BaseGA",     # Using Genetic Algorithm for hyper-parameter optimization
+        optim_params={"epoch": 20, "pop_size": 30, "name": "GA"},
+        cv=3,
+        scoring="AS",  # or any custom scoring like "F1_macro"
+        seed=42,
+        n_jobs=2,
+        verbose=True
+    )
 
-	## Calculate metrics using evaluate function
-	print(model.evaluate(data.y_test, y_pred, list_metrics=("MSE", "RMSE", "MAPE", "NSE")))
+    searcher.fit(X_train, y_train)
+    print("Best parameters (Classification):", searcher.best_params)
+    print("Best model: ", searcher.best_estimator)
+    print("Best score during searching: ", searcher.best_score)
 
-	## Save performance metrics to csv file
-	model.save_metrics(data.y_test, y_pred, list_metrics=("RMSE", "MAE"), save_path="history", filename="metrics.csv")
-
-	## Save training loss to csv file
-	model.save_loss_train(save_path="history", filename="loss.csv")
-
-	## Save predicted label
-	model.save_y_predicted(X=data.X_test, y_true=data.y_test, save_path="history", filename="y_predicted.csv")
-
-	## Save model
-	model.save_model(save_path="history", filename="traditional_mlp.pkl")
-
-	## Load model
-	trained_model = RvflRegressor.load_model(load_path="history", filename="traditional_mlp.pkl")
+    # Make prediction after re-fit
+    y_pred = searcher.predict(X_test)
+    print("Test Accuracy:", searcher.score(X_test, y_test))
+    print("Test Score: ", searcher.scores(X_test, y_test, list_metrics=("AS", "RS", "PS", "F1S")))
 
 
-
-
-A real-world dataset contains features that vary in magnitudes, units, and range. We would suggest performing
-normalization when the scale of a feature is irrelevant or misleading. Feature Scaling basically helps to normalize
-the data within a particular range.
+Please check out the examples for more details on how to use the `MetaSearchCV` class.
 
 .. toctree::
    :maxdepth: 4

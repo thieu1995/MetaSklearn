@@ -20,17 +20,17 @@ import sys
 
 sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../../'))
-sys.path.insert(1, os.path.abspath('../../graforvfl'))
+sys.path.insert(1, os.path.abspath('../../metasklearn'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'graforvfl'
-copyright = '2023, Thieu'
+project = 'metasklearn'
+copyright = '2025, Thieu'
 author = 'Thieu'
 
 # The full version, including alpha/beta/rc tags
-release = '2.0.0'
+release = '0.1.0'
 
 
 # -- General configuration ---------------------------------------------------

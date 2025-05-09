@@ -2,52 +2,38 @@
 Citation Request
 ================
 
-* Learn more about Random Vector Functional Link from `paper 01 <https://doi.org/10.1016/j.ins.2015.09.025>`_
-
-* Learn more about on how to use Gradient Free Optimization to fine-tune the hyper-parameter of RVFL networks from `paper 02 <https://doi.org/10.1016/j.neucom.2018.07.080>`_
-
-* Learn more about on how to use Gradient Free Optimization to optimize the weights of RVFL networks from `paper 03 <https://doi.org/10.1109/SOCA.2018.00014>`_.
-
-
 Please include these citations if you plan to use this library::
 
-	@software{nguyen_van_thieu_2023_10258280,
-	  author       = {Nguyen Van Thieu},
-	  title        = {GrafoRVFL: A Gradient-Free Optimization Framework for Boosting Random Vector Functional Link Network},
-	  month        = dec,
-	  year         = 2023,
-	  publisher    = {Zenodo},
-	  doi          = {10.5281/zenodo.10258280},
-	  url          = {https://github.com/thieu1995/GrafoRVFL}
-	}
+    @software{thieu20250510MetaSklearn,
+        author       = {Nguyen Van Thieu},
+        title        = {MetaSklearn: A Metaheuristic-Powered Hyperparameter Optimization Framework for Scikit-Learn Models},
+        month        = may,
+        year         = 2025,
+        doi         = {10.6084/m9.figshare.28978805},
+        url          = {https://github.com/thieu1995/MetaSklearn}
+    }
 
-	@article{van2023mealpy,
-	  title={MEALPY: An open-source library for latest meta-heuristic algorithms in Python},
-	  author={Van Thieu, Nguyen and Mirjalili, Seyedali},
-	  journal={Journal of Systems Architecture},
-	  year={2023},
-	  publisher={Elsevier},
-	  doi={10.1016/j.sysarc.2023.102871}
-	}
+    @article{van2023mealpy,
+        title={MEALPY: An open-source library for latest meta-heuristic algorithms in Python},
+        author={Van Thieu, Nguyen and Mirjalili, Seyedali},
+        journal={Journal of Systems Architecture},
+        year={2023},
+        publisher={Elsevier},
+        doi={10.1016/j.sysarc.2023.102871}
+    }
 
-	@inproceedings{nguyen2019building,
-	  title={Building resource auto-scaler with functional-link neural network and adaptive bacterial foraging optimization},
-	  author={Nguyen, Thieu and Nguyen, Binh Minh and Nguyen, Giang},
-	  booktitle={International Conference on Theory and Applications of Models of Computation},
-	  pages={501--517},
-	  year={2019},
-	  organization={Springer}
-	}
-
-	@inproceedings{nguyen2018resource,
-	  title={A resource usage prediction system using functional-link and genetic algorithm neural network for multivariate cloud metrics},
-	  author={Nguyen, Thieu and Tran, Nhuan and Nguyen, Binh Minh and Nguyen, Giang},
-	  booktitle={2018 IEEE 11th conference on service-oriented computing and applications (SOCA)},
-	  pages={49--56},
-	  year={2018},
-	  organization={IEEE},
-	  doi={10.1109/SOCA.2018.00014}
-	}
+    @article{Thieu_PerMetrics2024,
+        author = {Thieu, Nguyen Van},
+        doi = {10.21105/joss.06143},
+        journal = {Journal of Open Source Software},
+        month = mar,
+        number = {95},
+        pages = {6143},
+        title = {{PerMetrics: A Framework of Performance Metrics for Machine Learning Models}},
+        url = {https://joss.theoj.org/papers/10.21105/joss.06143},
+        volume = {9},
+        year = {2024}
+    }
 
 
 If you have an open-ended or a research question, you can contact me via nguyenthieu2102@gmail.com.
