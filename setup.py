@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Created by "Thieu" at 13:24, 25/05/2022 ----------%
+# Created by "Thieu" at 13:19, 09/05/2025 ----------%
 #       Email: nguyenthieu2102@gmail.com            %
 #       Github: https://github.com/thieu1995        %
 # --------------------------------------------------%
@@ -14,33 +14,31 @@ def readme():
 
 
 setup(
-    name="graforvfl",
-    version="2.0.0",
+    name="metasklearn",
+    version="0.1.0",
     author="Thieu",
     author_email="nguyenthieu2102@gmail.com",
-    description="GrafoRVFL: A Gradient-Free Optimization Framework for Boosting Random Vector Functional Link Network",
+    description="MetaSklearn: A Metaheuristic-Powered Hyperparameter Optimization Framework for Scikit-Learn Models",
     long_description=readme(),
     long_description_content_type="text/markdown",
-    keywords=["random vector functional link", "machine learning", "artificial intelligence",
-              "deep learning", "neural networks", "single hidden layer network",
-              "random projection", "RVFL", "feed-forward neural network", "artificial neural network",
-              "classification", "regression", "supervised learning", "online learning", "generalization",
-              "optimization algorithms", "Kernel RVFL", "Cross-validation"
+    keywords=["hyperparameter tuning", "machine learning", "artificial intelligence",
+              "hyperparameter optimization", "neural networks", "metaheuristics",
+              "metaheuristic optimization", "scikit-learn", "sklearn", "grid search",
+              "random search", "Bayesian optimization", "hyperparameter search", "nature-inspired algorithms",
+              "classification", "regression", "supervised learning", "generalization",
+              "optimization algorithms", "model selection", "Cross-validation"
               "Genetic algorithm (GA)", "Particle swarm optimization (PSO)", "Ant colony optimization (ACO)",
               "Differential evolution (DE)", "Simulated annealing", "Grey wolf optimizer (GWO)",
-              "Whale Optimization Algorithm (WOA)", "confusion matrix", "recall", "precision", "accuracy",
-              "pearson correlation coefficient (PCC)", "spearman correlation coefficient (SCC)",
-              "Global optimization", "Convergence analysis", "Search space exploration", "Local search",
-              "Computational intelligence", "Robust optimization", "metaheuristic", "metaheuristic algorithms",
-              "nature-inspired computing", "nature-inspired algorithms", "swarm-based computation",
-              "metaheuristic-based RVFL", "gradient-free optimization" "gradient-free optimized RVFL", "metaheuristic-optimized RVFL",
-              "Performance analysis", "Intelligent optimization", "Simulations"],
-    url="https://github.com/thieu1995/GrafoRVFL",
+              "Whale Optimization Algorithm (WOA)", "automl", "parameter search", "mealpy", "search algorithm",
+              "optimization framework", "global optimization", "local optimization",
+              "Computational intelligence", "Robust optimization", "metaheuristic algorithms",
+              "nature-inspired computing", "swarm-based computation", "gradient-free optimization"],
+    url="https://github.com/thieu1995/MetaSklearn",
     project_urls={
-        'Documentation': 'https://graforvfl.readthedocs.io/',
-        'Source Code': 'https://github.com/thieu1995/GrafoRVFL',
-        'Bug Tracker': 'https://github.com/thieu1995/GrafoRVFL/issues',
-        'Change Log': 'https://github.com/thieu1995/GrafoRVFL/blob/main/ChangeLog.md',
+        'Documentation': 'https://metasklearn.readthedocs.io/',
+        'Source Code': 'https://github.com/thieu1995/MetaSklearn',
+        'Bug Tracker': 'https://github.com/thieu1995/MetaSklearn/issues',
+        'Change Log': 'https://github.com/thieu1995/MetaSklearn/blob/main/ChangeLog.md',
         'Forum': 'https://t.me/+fRVCJGuGJg1mNDg1',
     },
     packages=find_packages(exclude=['tests*', 'examples*']),
