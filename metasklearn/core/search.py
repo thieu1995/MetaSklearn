@@ -46,7 +46,7 @@ class MetaSearchCV(BaseEstimator):
     SUPPORTED_REG_METRICS = get_all_regression_metrics()
 
     def __init__(self, estimator, param_bounds, task_type="classification",
-                 optim="AOA", optim_params=None,
+                 optim="BaseGA", optim_params=None,
                  cv=5, scoring=None, seed=None, n_jobs=1, verbose=True, **kwargs):
         self.estimator = estimator
         self.param_bounds = param_bounds
