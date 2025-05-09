@@ -4,8 +4,8 @@ authors:
   - family-names: "Van Thieu"
     given-names: "Nguyen"
     orcid: "https://orcid.org/0000-0001-9994-8747"
-title: "GrafoRVFL: A Gradient-Free Optimization Framework for Boosting Random Vector Functional Link Network"
-version: v2.0.0
-doi: 10.5281/zenodo.10258280
-date-released: 2023-12-05
-url: "https://github.com/thieu1995/GrafoRVFL"
+title: "MetaSklearn: A Metaheuristic-Powered Hyperparameter Optimization Framework for Scikit-Learn Models"
+version: v0.1.0
+doi: 10.6084/m9.figshare.28978805
+date-released: 2025-05-10
+url: "https://github.com/thieu1995/MetaSklearn"
