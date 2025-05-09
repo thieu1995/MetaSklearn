@@ -5,25 +5,18 @@
 # --------------------------------------------------%
 
 import numpy as np
-from graforvfl import Data
+from metasklearn import Data
+from metasklearn.utils.scaler import OneHotEncoder
 
 
 X = np.array([[ 1., -2.,  2.],
                  [ -2.,  1.,  3.],
                  [ 4.,  1., -2.]])
-y = np.array([[1, 2, 0],
-              [0, 0, 1],
-              [0, 2, 2]])
-
-# y = np.array([[1, 2, 0]])
+y = np.array([[1, 2, 0]])
 
 data = Data(X, y)
 y, le = data.encode_label(y)
 print(y)
-
-
-import numpy as np
-from graforvfl.shared.scaler import OneHotEncoder
 
 
 # Input data

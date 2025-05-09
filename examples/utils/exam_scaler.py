@@ -5,7 +5,7 @@
 # --------------------------------------------------%
 
 import numpy as np
-from graforvfl import DataTransformer, Data
+from metasklearn import DataTransformer, Data
 
 
 X = np.array([[ 1., -2.,  2.],
@@ -73,7 +73,7 @@ print(X_unscaled)
 
 ### 5) Use methods in Data class with parameters
 data = Data(X)
-X_scaled, scaler = data.scale(X, scaling_methods=("yeo-johnson", "sinh-arc-sinh"), list_dict_paras=({"lamda": 1.2}, {"epsilon": 0.5, "delta": 2.5}))
+X_scaled, scaler = data.scale(X, scaling_methods=("yeo-johnson", "sinh-arc-sinh"), list_dict_paras=(None, {"epsilon": 0.5, "delta": 2.5}))
 X_unscaled = scaler.inverse_transform(X_scaled)
 
 # Print the results
