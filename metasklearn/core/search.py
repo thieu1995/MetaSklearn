@@ -8,21 +8,39 @@ import inspect
 import pickle
 import pprint
 from pathlib import Path
-
 import numpy as np
 import pandas as pd
 from permetrics import RegressionMetric, ClassificationMetric
 from sklearn.base import BaseEstimator
 from sklearn.metrics import get_scorer_names
 from mealpy import get_optimizer_by_name, Optimizer
-from joblib import Parallel, delayed
-import warnings
 from metasklearn.core.problem import HyperparameterProblem
 from metasklearn.utils import validation
 from metasklearn.utils.evaluation import get_all_classification_metrics, get_all_regression_metrics
 
 
 class MetaSearchCV(BaseEstimator):
+    """
+    A metaheuristic-powered hyperparameter optimization framework for scikit-learn models.
+
+    This class provides functionality to optimize hyperparameters of machine learning models
+    using metaheuristic algorithms and cross-validation.
+
+    Attributes:
+        estimator: The machine learning model to optimize.
+        param_bounds: The bounds for the hyperparameters.
+        task_type: The type of task ("classification" or "regression").
+        optim: The optimization algorithm to use.
+        optim_params: Parameters for the optimization algorithm.
+        cv: The number of cross-validation folds.
+        scoring_name: The name of the scoring metric.
+        seed: The random seed for reproducibility.
+        n_jobs: The number of parallel jobs for cross-validation.
+        verbose: Whether to display verbose output.
+        best_params: The best hyperparameter configuration found.
+        best_estimator: The best model trained with the optimal hyperparameters.
+        loss_train: The training loss during optimization.
+    """
 
     SUPPORTED_CLS_METRICS = get_all_classification_metrics()
     SUPPORTED_REG_METRICS = get_all_regression_metrics()
@@ -69,7 +87,11 @@ class MetaSearchCV(BaseEstimator):
         self.kwargs = kwargs
 
     def __repr__(self, **kwargs):
-        """Pretty-print parameters like scikit-learn's Estimator.
+        """
+        Returns a string representation of the MetaSearchCV instance.
+
+        Returns:
+            str: A formatted string of the instance's parameters.
         """
         param_order = list(inspect.signature(self.__init__).parameters.keys())
         param_dict = {k: getattr(self, k) for k in param_order}
@@ -82,6 +104,19 @@ class MetaSearchCV(BaseEstimator):
             return f"{self.__class__.__name__}(\n  {formatted_params}\n)"
 
     def _set_optimizer(self, optim=None, optim_params=None):
+        """
+        Sets the optimizer for the hyperparameter search.
+
+        Args:
+            optim: The name of the optimizer or an Optimizer instance.
+            optim_params: Parameters for the optimizer.
+
+        Returns:
+            Optimizer: An instance of the optimizer.
+
+        Raises:
+            TypeError: If the `optim` parameter is not a string or Optimizer instance.
+        """
         if type(optim) is str:
             opt_class = get_optimizer_by_name(optim)
             if type(optim_params) is dict:
@@ -98,6 +133,16 @@ class MetaSearchCV(BaseEstimator):
             raise TypeError(f"`optim` parameter needs to set as a string and supported by Mealpy library.")
 
     def fit(self, X, y):
+        """
+        Fits the model using the provided data and performs hyperparameter optimization.
+
+        Args:
+            X: The feature matrix.
+            y: The target vector.
+
+        Returns:
+            MetaSearchCV: The fitted instance.
+        """
         self.problem = HyperparameterProblem(self.param_bounds, self.minmax, X, y,
                                              self.estimator, self.metric_class,
                                              obj_name=self.scoring_name, sklearn_score=self.sklearn_score,
@@ -115,16 +160,52 @@ class MetaSearchCV(BaseEstimator):
         return self
 
     def predict(self, X):
+        """
+        Predicts the target values for the given feature matrix.
+
+        Args:
+            X: The feature matrix.
+
+        Returns:
+            np.ndarray: The predicted target values.
+
+        Raises:
+            ValueError: If the model is not trained.
+        """
         if self.best_params is None or self.best_estimator is None:
             raise ValueError(f"Model is not trained, please call the fit() function.")
         return self.best_estimator.predict(X)
 
     def score(self, X, y):
+        """
+        Computes the score of the model on the given data.
+
+        Args:
+            X: The feature matrix.
+            y: The target vector.
+
+        Returns:
+            float: The score of the model.
+
+        Raises:
+            ValueError: If the model is not trained.
+        """
         if self.best_params is None or self.best_estimator is None:
             raise ValueError(f"Model is not trained, please call the fit() function.")
         return self.best_estimator.score(X, y)
 
     def evaluate(self, y_true, y_pred, list_metrics=("AS", "RS")):
+        """
+        Evaluates the model's predictions using the specified metrics.
+
+        Args:
+            y_true: The ground truth target values.
+            y_pred: The predicted target values.
+            list_metrics: A list of metric names to evaluate.
+
+        Returns:
+            dict: A dictionary of metric names and their corresponding values.
+        """
         if self.task_type == "regression":
             rm = RegressionMetric(y_true=y_true, y_pred=y_pred)
             return rm.get_metrics_by_list_names(list_metrics)
@@ -133,6 +214,17 @@ class MetaSearchCV(BaseEstimator):
             return cm.get_metrics_by_list_names(list_metrics)
 
     def scores(self, X, y, list_metrics=("AS", "RS")):
+        """
+        Computes evaluation metrics for the model's predictions.
+
+        Args:
+            X: The feature matrix.
+            y: The target vector.
+            list_metrics: A list of metric names to evaluate.
+
+        Returns:
+            dict: A dictionary of metric names and their corresponding values.
+        """
         y_pred = self.predict(X)
         res = self.evaluate(y, y_pred, list_metrics=list_metrics)
         return res
