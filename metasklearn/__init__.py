@@ -4,7 +4,7 @@
 #       Github: https://github.com/thieu1995        %                         
 # --------------------------------------------------%
 
-__version__ = "2.0.0"
+__version__ = "0.1.0"
 
 from mealpy import (IntegerVar, FloatVar, PermutationVar, StringVar, BinaryVar, BoolVar,
                           MixedSetVar, TransferBinaryVar, TransferBoolVar)
