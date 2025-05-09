@@ -6,49 +6,49 @@
 
 import numpy as np
 from sklearn.model_selection import KFold, cross_val_score
-from sklearn.base import BaseEstimator, clone
 from mealpy import Problem
 
 
 class HyperparameterProblem(Problem):
     """
-    This class defines the Hyper-parameter tuning problem that will be used for Mealpy library.
+    A class to define a hyperparameter optimization problem for machine learning models.
 
-    Parameters
-    ----------
-    bounds : from Mealpy library.
+    Inherits from the `Problem` class in the `mealpy` library and provides functionality
+    to evaluate hyperparameter configurations using cross-validation.
 
-    minmax : from Mealpy library.
-
-    X : array-like of shape (n_samples, n_features)
-        Test samples. For some estimators this may be a precomputed kernel matrix or a list of generic objects instead with shape
-        ``(n_samples, n_samples_fitted)``, where ``n_samples_fitted`` is the number of samples used in the fitting for the estimator.
-
-    y : array-like of shape (n_samples,) or (n_samples, n_outputs)
-        True values for `X`.
-
-    model_class : RvflRegressor or RvflClassifier
-        The class definition of RVFL network for regression or classification problem.
-
-    metric_class : RegressionMetric or ClassificationMetric
-        The class definition of Performance Metrics for regression or classification problem.
-
-    obj_name : str
-        The name of the loss function used in network
-
-    cv : int, default=None
-        The k fold cross-validation method
-
-    shuffle: bool, default=True
-        Shuffle or not the dataset when performs k-fold cross validation.
-
-    seed: int, default=None
-        Determines random number generation for weights and bias initialization.
-        Pass an int for reproducible results across multiple function calls.
+    Attributes:
+        estimator: The machine learning model to optimize.
+        X: The feature matrix.
+        y: The target vector.
+        metric_class: A custom metric class for evaluation.
+        obj_name: The name of the objective metric.
+        cv: The number of cross-validation folds.
+        n_jobs: The number of parallel jobs for cross-validation.
+        shuffle: Whether to shuffle the data before splitting into folds.
+        kf: The KFold cross-validator instance.
+        get_obj_score_: The scoring function to use (either sklearn or custom).
     """
 
     def __init__(self, bounds=None, minmax="max", X=None, y=None, estimator=None, metric_class=None,
                  obj_name=None, sklearn_score=None, cv=None, n_jobs=None, shuffle=True, seed=None, **kwargs):
+        """
+        Initializes the HyperparameterProblem instance.
+
+        Args:
+            bounds: The bounds for the hyperparameters.
+            minmax: The optimization direction ("max" for maximization, "min" for minimization).
+            X: The feature matrix.
+            y: The target vector.
+            estimator: The machine learning model to optimize.
+            metric_class: A custom metric class for evaluation.
+            obj_name: The name of the objective metric.
+            sklearn_score: Whether to use sklearn's scoring function.
+            cv: The number of cross-validation folds.
+            n_jobs: The number of parallel jobs for cross-validation.
+            shuffle: Whether to shuffle the data before splitting into folds.
+            seed: The random seed for reproducibility.
+            **kwargs: Additional arguments for the parent class.
+        """
         self.estimator = estimator
         self.X = X
         self.y = y
@@ -69,11 +69,23 @@ class HyperparameterProblem(Problem):
         super().__init__(bounds, minmax, **{**kwargs, "seed":seed})
 
     def _get_sklearn_score(self):
+        """
+        Computes the cross-validation score using sklearn's scoring function.
+
+        Returns:
+            float: The mean cross-validation score.
+        """
         scores = cross_val_score(self.estimator, self.X, self.y,
                                  cv=self.cv, scoring=self.obj_name, n_jobs=self.n_jobs)
         return np.mean(scores)
 
     def _get_custom_score(self):
+        """
+        Computes the cross-validation score using a custom scoring function from PerMetrics library
+
+        Returns:
+            float: The mean cross-validation score.
+        """
         scores = []
         # Perform custom cross-validation
         for train_idx, test_idx in self.kf.split(self.X):
@@ -92,6 +104,15 @@ class HyperparameterProblem(Problem):
         return np.mean(scores)
 
     def obj_func(self, x):
+        """
+        Objective function to evaluate a hyperparameter configuration.
+
+        Args:
+            x: The encoded hyperparameter configuration.
+
+        Returns:
+            float: The evaluation score for the given configuration.
+        """
         x_decoded = self.decode_solution(x)
         self.model = self.estimator.set_params(**x_decoded)
         score = self.get_obj_score_()
