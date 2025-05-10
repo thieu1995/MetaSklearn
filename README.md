@@ -173,6 +173,105 @@ print("Test Score: ", searcher.scores(X_test, y_test, list_metrics=("AS", "RS", 
 
 As can be seen, you do it like any other model from Scikit-Learn library such as Random Forest, Decision Tree, XGBoost,...
 
+## 📋 Parameters - Variable Types in MetaSearchCV. How to choose them?
+
+This section explains how to use different types of variables from the `Mealpy` library when defining hyperparameter 
+search spaces for `MetaSearchCV`. Each variable type is suitable for different kinds of optimization parameters.
+
+#### 1. `IntegerVar` – Integer Variable
+```python
+from metasklearn import IntegerVar
+
+var = IntegerVar(lb=1, ub=100, name="n_estimators")
+```
+Used for discrete numerical parameters like number of neighbors in KNN, number of estimators in ensembles, etc.
+
+#### 2. `FloatVar` – Float/Continuous Variable
+```python
+from metasklearn import FloatVar
+
+var = FloatVar(lb=0.001, ub=1.0, name="learning_rate")
+```
+Used for continuous numerical parameters such as `learning_rate`, `C`, `gamma`, etc.
+
+#### 3. `StringVar` – Categorical/String Variable
+```python
+from metasklearn import StringVar
+
+var = StringVar(valid_sets=("linear", "poly", "rbf"), name="kernel")
+```
+Used for categorical parameters with a limited number of choices, e.g., `kernel` in SVM.
+
+#### 4. `BinaryVar` – Binary Variable (0 or 1)
+```python
+from metasklearn import BinaryVar
+
+var = BinaryVar(n_vars=1, name="feature_selected")
+```
+Used in binary feature selection problems or any 0/1-based decision.
+
+#### 5. `BoolVar` – Boolean Variable (True or False)
+```python
+from metasklearn import BoolVar
+
+var = BoolVar(n_vars=1, name="use_bias")
+```
+Used for Boolean-type arguments such as `fit_intercept`, `use_bias`, etc.
+
+#### 6. `PermutationVar` – Permutation Variable
+```python
+from metasklearn import PermutationVar
+
+var = PermutationVar(valid_set=(1, 2, 5, 10), name="job_order")
+```
+Used for optimization problems involving permutations, like scheduling or routing.
+
+#### 7. `MixedSetVar` – Mixed-Type Set Variable
+```python
+from metasklearn import MixedSetVar
+
+var = MixedSetVar(valid_sets=((10, 15), (20, 10), (30, 5)), name="mixed_choice")
+```
+Used when the parameter can take values of different types (int, string, bool, float, set,...).
+
+#### 8. `TransferBinaryVar` – Transfer Binary Variable
+```python
+from metasklearn import TransferBinaryVar
+
+var = TransferBinaryVar(n_vars=1, tf_func="vstf_01", lb=-8., ub=8., all_zeros=True, name="transfer_binary")
+```
+Used in binary search spaces that support transformation-based metaheuristics.
+
+#### 9. `TransferBoolVar` – Transfer Boolean Variable
+```python
+from metasklearn import TransferBoolVar
+
+var = TransferBoolVar(n_vars=1, tf_func="vstf_01", lb=-8., ub=8., name="transfer_bool")
+```
+Used in Boolean search spaces with transferable logic between states.
+
+#### 🔧 Example: Define a Mixed Search Space
+
+```python
+from metasklearn import (IntegerVar, FloatVar, StringVar, BinaryVar, BoolVar, 
+        PermutationVar, MixedSetVar, TransferBinaryVar, TransferBoolVar)
+
+param_bounds = [
+    IntegerVar(lb=1, ub=20, name="n_neighbors"),
+    FloatVar(lb=0.001, ub=1.0, name="alpha"),
+    StringVar(valid_sets=["uniform", "distance"], name="weights"),
+    BinaryVar(name="use_feature"),
+    BoolVar(name="fit_bias"),
+    PermutationVar(valid_set=(1, 2, 5, 10), name="job_order"),
+    MixedSetVar(valid_sets=[0.1, "relu", False], name="activation_choice"),
+    MixedSetVar(valid_sets=((10, 15), (20, 10), (30, 5)), name="mixed_choice"),
+    TransferBinaryVar(name="bin_transfer"),
+    TransferBoolVar(name="bool_transfer")
+]
+```
+Use this format when designing hyperparameter spaces for advanced models in `MetaSearchCV`.
+
+
 ## ⚙ Supported Optimizers
 
 `MetaSklearn` integrates all metaheuristic algorithms from Mealpy, including:
