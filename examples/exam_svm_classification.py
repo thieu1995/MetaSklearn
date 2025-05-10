@@ -42,7 +42,7 @@ searcher = MetaSearchCV(
 )
 
 searcher.fit(X_train, y_train)
-print("Best parameters (Classification):", searcher.best_params)
+print("Best parameters:", searcher.best_params)
 print("Best model: ", searcher.best_estimator)
 print("Best score during searching: ", searcher.best_score)
 

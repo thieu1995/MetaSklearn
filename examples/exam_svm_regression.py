@@ -53,11 +53,11 @@ searcher = MetaSearchCV(
 )
 
 searcher.fit(data.X_train, data.y_train)
-print("Best parameters (Classification):", searcher.best_params)
+print("Best parameters:", searcher.best_params)
 print("Best model: ", searcher.best_estimator)
 print("Best score during searching: ", searcher.best_score)
 
 # Make prediction after re-fit
 y_pred = searcher.predict(data.X_test)
-print("Test Accuracy:", searcher.score(data.X_test, data.y_test))
+print("Test R2:", searcher.score(data.X_test, data.y_test))
 print("Test Score: ", searcher.scores(data.X_test, data.y_test, list_metrics=("RMSE", "R", "KGE", "NNSE")))
