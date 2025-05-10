@@ -175,8 +175,8 @@ As can be seen, you do it like any other model from Scikit-Learn library such as
 
 ## 📋 Parameters - Variable Types in MetaSearchCV. How to choose them?
 
-This section explains how to use different types of variables from the `Mealpy` library when defining hyperparameter 
-search spaces for `MetaSearchCV`. Each variable type is suitable for different kinds of optimization parameters.
+This section explains how to use different types of variables from the `MetaSearchCV` library when defining hyperparameter 
+search spaces. Each variable type is suitable for different kinds of optimization parameters.
 
 #### 1. `IntegerVar` – Integer Variable
 ```python
