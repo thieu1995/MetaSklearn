@@ -43,11 +43,11 @@ If you have an open-ended or a research question, you can contact me via nguyent
 Important links
 ===============
 
-* Official source code repo: https://github.com/thieu1995/GrafoRVFL
-* Official document: https://graforvfl.readthedocs.io/
-* Download releases: https://pypi.org/project/graforvfl/
-* Issue tracker: https://github.com/thieu1995/GrafoRVFL/issues
-* Notable changes log: https://github.com/thieu1995/GrafoRVFL/blob/main/ChangeLog.md
+* Official source code repo: https://github.com/thieu1995/MetaSklearn
+* Official document: https://metasklearn.readthedocs.io/
+* Download releases: https://pypi.org/project/metasklearn/
+* Issue tracker: https://github.com/thieu1995/MetaSklearn/issues
+* Notable changes log: https://github.com/thieu1995/MetaSklearn/blob/main/ChangeLog.md
 
 * This project also related to our another projects which are "optimization" and "machine learning", check it here:
     * https://github.com/thieu1995/mealpy
