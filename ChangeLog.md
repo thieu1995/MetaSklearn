@@ -3,7 +3,8 @@
 
 + Update the latest version of `mealpy==3.0.2`
 + Add `CategoricalVar` and `SequenceVar` in hyper-parameter space.
-+ Update documents, examples, and README.
++ Replace `get_optimizer_by_name` by `get_optimizer_by_class` in `search` module.
++ Update setup, requirements, documents, examples, and README.
 
 
 # Version 0.1.0
