@@ -4,9 +4,9 @@
 #       Github: https://github.com/thieu1995        %                         
 # --------------------------------------------------%
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
-from mealpy import (IntegerVar, FloatVar, PermutationVar, StringVar, BinaryVar, BoolVar,
-                          MixedSetVar, TransferBinaryVar, TransferBoolVar)
+from mealpy import (IntegerVar, FloatVar, StringVar, BinaryVar, BoolVar,
+                    PermutationVar, CategoricalVar, SequenceVar, TransferBinaryVar, TransferBoolVar)
 from metasklearn.utils.data_handler import Data, DataTransformer
 from metasklearn.core.search import MetaSearchCV

@@ -15,7 +15,7 @@ def readme():
 
 setup(
     name="metasklearn",
-    version="0.1.0",
+    version="0.2.0",
     author="Thieu",
     author_email="nguyenthieu2102@gmail.com",
     description="MetaSklearn: A Metaheuristic-Powered Hyperparameter Optimization Framework for Scikit-Learn Models",
