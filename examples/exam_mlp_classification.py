@@ -7,7 +7,7 @@
 from sklearn.neural_network import MLPClassifier
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
-from metasklearn import MetaSearchCV, IntegerVar, FloatVar, MixedSetVar, StringVar
+from metasklearn import MetaSearchCV, IntegerVar, FloatVar, CategoricalVar, StringVar, SequenceVar
 
 # Load dataset
 X, y = load_iris(return_X_y=True)
@@ -27,14 +27,14 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # }
 
 param_bounds = [
-    MixedSetVar(valid_sets=((20, 5), (15, 10), (15, 30, 10)), name="hidden_layer_sizes"),
+    SequenceVar(valid_sets=((30, ), (20, 5), (15, 10), (15, 30, 10)), name="hidden_layer_sizes"),
     StringVar(valid_sets=("relu", "tanh", "logistic"), name="activation"),
     StringVar(valid_sets=("adam", "sgd", "lbfgs"), name="solver"),
     FloatVar(lb=0.0001, ub=0.01, name="alpha"),
     StringVar(valid_sets=("constant", "adaptive", "invscaling"), name="learning_rate"),
     FloatVar(lb=0.001, ub=0.1, name="learning_rate_init"),
     IntegerVar(lb=500, ub=600, name="max_iter"),
-    MixedSetVar(valid_sets=('auto', 32, 64), name="batch_size"),
+    CategoricalVar(valid_sets=('auto', 32, 64), name="batch_size"),
 ]
 
 

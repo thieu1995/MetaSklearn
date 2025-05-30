@@ -6,7 +6,7 @@
 
 from sklearn.neural_network import MLPRegressor
 from sklearn.datasets import load_diabetes
-from metasklearn import MetaSearchCV, IntegerVar, FloatVar, MixedSetVar, StringVar, Data
+from metasklearn import MetaSearchCV, IntegerVar, FloatVar, CategoricalVar, StringVar, Data, SequenceVar
 
 ## Load data object
 X, y = load_diabetes(return_X_y=True)
@@ -38,14 +38,14 @@ data.y_test = scaler_y.transform(data.y_test.reshape(-1, 1)).ravel()
 # }
 
 param_bounds = [
-    MixedSetVar(valid_sets=((20, 5), (15, 10), (15, 30, 10)), name="hidden_layer_sizes"),
+    SequenceVar(valid_sets=((30, ), (20, 5), (15, 10), (15, 30, 10)), name="hidden_layer_sizes"),
     StringVar(valid_sets=("relu", "tanh", "logistic"), name="activation"),
     StringVar(valid_sets=("adam", "sgd", "lbfgs"), name="solver"),
     FloatVar(lb=0.0001, ub=0.01, name="alpha"),
     StringVar(valid_sets=("constant", "adaptive", "invscaling"), name="learning_rate"),
     FloatVar(lb=0.001, ub=0.1, name="learning_rate_init"),
     IntegerVar(lb=300, ub=500, name="max_iter"),
-    MixedSetVar(valid_sets=('auto', 32, 64), name="batch_size"),
+    CategoricalVar(valid_sets=('auto', 32, 64), name="batch_size"),
 ]
 
 # Initialize and fit MetaSearchCV

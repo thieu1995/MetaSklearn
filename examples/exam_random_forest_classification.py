@@ -7,7 +7,7 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
-from metasklearn import MetaSearchCV, IntegerVar, StringVar, MixedSetVar, FloatVar
+from metasklearn import MetaSearchCV, IntegerVar, StringVar, CategoricalVar, FloatVar
 
 # Load dataset
 X, y = load_iris(return_X_y=True)
@@ -32,8 +32,8 @@ param_bounds = [
     IntegerVar(lb=3, ub=10, name="max_depth"),
     IntegerVar(lb=2, ub=10, name="min_samples_split"),
     IntegerVar(lb=1, ub=5, name="min_samples_leaf"),
-    MixedSetVar(valid_sets=("sqrt", "log2", 3, 5, 7, 0.2, 0.5), name="max_features"),
-    MixedSetVar(valid_sets=(None, 0.5, 0.8), name="max_samples"),  # If bootstrap=True, this controls the number of samples to draw
+    CategoricalVar(valid_sets=("sqrt", "log2", 3, 5, 7, 0.2, 0.5), name="max_features"),
+    CategoricalVar(valid_sets=(None, 0.5, 0.8), name="max_samples"),  # If bootstrap=True, this controls the number of samples to draw
     FloatVar(lb=0.0, ub=0.1, name="ccp_alpha"),  # Complexity parameter used for Minimal Cost-Complexity Pruning
 ]
 
