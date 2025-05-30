@@ -17,14 +17,14 @@
 ## 🌟 Overview
 
 **MetaSklearn** is a flexible and extensible Python library that brings metaheuristic optimization to 
-hyperparameter tuning of scikit-learn models. It provides a seamless interface to optimize hyperparameters 
+hyperparameter tuning of `scikit-learn` models. It provides a seamless interface to optimize hyperparameters 
 using nature-inspired algorithms from the [Mealpy](https://github.com/thieu1995/mealpy) library.
 It is designed to be user-friendly and efficient, making it easy to integrate into your machine learning workflow.
 
 
 ## 🚀 Features
 
-- ✅ Hyperparameter optimization with **metaheuristic algorithms**
+- ✅ Hyperparameter optimization by **metaheuristic algorithms** with `mealpy`.
 - ✅ Compatible with any **scikit-learn** model (SVM, RandomForest, XGBoost, etc.)
 - ✅ Supports **classification** and **regression** tasks
 - ✅ Custom and scikit-learn scoring support
@@ -200,7 +200,7 @@ from metasklearn import StringVar
 
 var = StringVar(valid_sets=("linear", "poly", "rbf"), name="kernel")
 ```
-Used for categorical parameters with a limited number of choices, e.g., `kernel` in SVM.
+Used for string parameters with a limited number of choices, e.g., `kernel` in SVM. Value None can be set also.
 
 #### 4. `BinaryVar` – Binary Variable (0 or 1)
 ```python
@@ -218,7 +218,26 @@ var = BoolVar(n_vars=1, name="use_bias")
 ```
 Used for Boolean-type arguments such as `fit_intercept`, `use_bias`, etc.
 
-#### 6. `PermutationVar` – Permutation Variable
+#### 6. `CategoricalVar` - A set of mixed discrete variables such as int, float, string, None
+```python
+from metasklearn import CategoricalVar
+
+var = CategoricalVar(valid_sets=((3., None, "alpha"), (5, 12, 32), ("auto", "exp", "sin")), name="categorical")
+```
+
+This type of variable is useful when a hyperparameter can take on a predefined set of mixed values, 
+such as: Mixed types of parameters in optimization tasks (int, string, bool, float,...).
+
+#### 7. `SequenceVar` - Variables as tuple, list, or set
+```python
+from metasklearn import SequenceVar
+
+var = SequenceVar(valid_sets=((10, ), (20, 15), (30, 10, 5)), return_type=list, name="hidden_layer_sizes")
+```
+
+This type of variable is useful for defining hyperparameters that represent sequences, such as the sizes of hidden layers in a neural network.
+
+#### 8. `PermutationVar` – Permutation Variable
 ```python
 from metasklearn import PermutationVar
 
@@ -226,15 +245,7 @@ var = PermutationVar(valid_set=(1, 2, 5, 10), name="job_order")
 ```
 Used for optimization problems involving permutations, like scheduling or routing.
 
-#### 7. `MixedSetVar` – Mixed-Type Set Variable
-```python
-from metasklearn import MixedSetVar
-
-var = MixedSetVar(valid_sets=((10, 15), (20, 10), (30, 5)), name="mixed_choice")
-```
-Used when the parameter can take values of different types (int, string, bool, float, set,...).
-
-#### 8. `TransferBinaryVar` – Transfer Binary Variable
+#### 9. `TransferBinaryVar` – Transfer Binary Variable
 ```python
 from metasklearn import TransferBinaryVar
 
@@ -242,7 +253,7 @@ var = TransferBinaryVar(n_vars=1, tf_func="vstf_01", lb=-8., ub=8., all_zeros=Tr
 ```
 Used in binary search spaces that support transformation-based metaheuristics.
 
-#### 9. `TransferBoolVar` – Transfer Boolean Variable
+#### 10. `TransferBoolVar` – Transfer Boolean Variable
 ```python
 from metasklearn import TransferBoolVar
 
@@ -254,7 +265,7 @@ Used in Boolean search spaces with transferable logic between states.
 
 ```python
 from metasklearn import (IntegerVar, FloatVar, StringVar, BinaryVar, BoolVar, 
-        PermutationVar, MixedSetVar, TransferBinaryVar, TransferBoolVar)
+        PermutationVar, CategoricalVar, SequenceVar, TransferBinaryVar, TransferBoolVar)
 
 param_bounds = [
     IntegerVar(lb=1, ub=20, name="n_neighbors"),
@@ -263,8 +274,8 @@ param_bounds = [
     BinaryVar(name="use_feature"),
     BoolVar(name="fit_bias"),
     PermutationVar(valid_set=(1, 2, 5, 10), name="job_order"),
-    MixedSetVar(valid_sets=[0.1, "relu", False], name="activation_choice"),
-    MixedSetVar(valid_sets=((10, 15), (20, 10), (30, 5)), name="mixed_choice"),
+    CategoricalVar(valid_sets=[0.1, "relu", False, None, 3], name="activation_choice"),
+    SequenceVar(valid_sets=((10,), (20, 10), (30, 50, 5)), name="mixed_choice"),
     TransferBinaryVar(name="bin_transfer"),
     TransferBoolVar(name="bool_transfer")
 ]
