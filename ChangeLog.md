@@ -1,5 +1,5 @@
 
-# Version 0.1.0
+# Version 0.2.0
 
 + Update the latest version of `mealpy==3.0.2`
 + Add `CategoricalVar` and `SequenceVar` in hyper-parameter space.
