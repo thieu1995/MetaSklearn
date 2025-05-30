@@ -13,7 +13,7 @@ import pandas as pd
 from permetrics import RegressionMetric, ClassificationMetric
 from sklearn.base import BaseEstimator
 from sklearn.metrics import get_scorer_names
-from mealpy import get_optimizer_by_name, Optimizer
+from mealpy import get_optimizer_by_class, Optimizer
 from metasklearn.core.problem import HyperparameterProblem
 from metasklearn.utils import validation
 from metasklearn.utils.evaluation import get_all_classification_metrics, get_all_regression_metrics
@@ -118,7 +118,7 @@ class MetaSearchCV(BaseEstimator):
             TypeError: If the `optim` parameter is not a string or Optimizer instance.
         """
         if type(optim) is str:
-            opt_class = get_optimizer_by_name(optim)
+            opt_class = get_optimizer_by_class(optim)
             if type(optim_params) is dict:
                 return opt_class(**optim_params)
             else:
