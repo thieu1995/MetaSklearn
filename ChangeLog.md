@@ -1,6 +1,13 @@
 
 # Version 0.1.0
 
++ Update the latest version of `mealpy==3.0.2`
++ Add `CategoricalVar` and `SequenceVar` in hyper-parameter space.
++ Update documents, examples, and README.
+
+
+# Version 0.1.0
+
 The first official release of `MetaSklearn` includes:
 
 + Add information (CODE_OF_CONDUCT.md, MANIFEST.in, LICENSE, requirements.txt, CITAION.cff)
