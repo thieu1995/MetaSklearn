@@ -137,6 +137,15 @@ class FeatureEngineering:
 
 
 class DataTransformer(BaseEstimator, TransformerMixin):
+    """
+    A Scikit-learn compatible transformer that applies a sequence of scaling techniques
+    to the input data, including standard, min-max, log, robust, and custom transformations.
+
+    Attributes
+    ----------
+    SUPPORTED_SCALERS : dict
+        Dictionary mapping scaler names to their corresponding classes.
+    """
 
     SUPPORTED_SCALERS = {"standard": StandardScaler, "minmax": MinMaxScaler, "max-abs": MaxAbsScaler,
                          "log1p": Log1pScaler, "loge": LogeScaler, "sqrt": SqrtScaler,
@@ -144,6 +153,20 @@ class DataTransformer(BaseEstimator, TransformerMixin):
                          "box-cox": BoxCoxScaler, "yeo-johnson": YeoJohnsonScaler}
 
     def __init__(self, scaling_methods=('standard', ), list_dict_paras=None):
+        """
+        Initialize the DataTransformer.
+
+        Parameters
+        ----------
+        scaling_methods : str or list/tuple of str
+            One or more scaling methods to apply in sequence.
+            Must be keys in SUPPORTED_SCALERS.
+
+        list_dict_paras : dict or list of dict, optional
+            Parameters for each scaler. If only one method is provided,
+            a single dict is expected. If multiple methods are provided,
+            a list of parameter dictionaries should be given.
+        """
         if type(scaling_methods) is str:
             if list_dict_paras is None:
                 self.list_dict_paras = [{}]
@@ -174,16 +197,58 @@ class DataTransformer(BaseEstimator, TransformerMixin):
             raise ValueError(f"Invalid scaling technique. Supported techniques are {self.SUPPORTED_SCALERS.keys()}")
 
     def fit(self, X, y=None):
+        """
+        Fit the sequence of scalers on the data.
+
+        Parameters
+        ----------
+        X : array-like of shape (n_samples, n_features)
+            The input data.
+
+        y : Ignored
+            Not used, exists for compatibility with sklearn's pipeline.
+
+        Returns
+        -------
+        self : object
+            Fitted transformer.
+        """
         for idx, _ in enumerate(self.scalers):
             X = self.scalers[idx].fit_transform(X)
         return self
 
     def transform(self, X):
+        """
+        Transform the input data using the sequence of fitted scalers.
+
+        Parameters
+        ----------
+        X : array-like of shape (n_samples, n_features)
+            Input data to transform.
+
+        Returns
+        -------
+        X_transformed : array-like
+            Transformed data.
+        """
         for scaler in self.scalers:
             X = scaler.transform(X)
         return X
 
     def inverse_transform(self, X):
+        """
+        Reverse the transformations applied to the data.
+
+        Parameters
+        ----------
+        X : array-like
+            Transformed data to invert.
+
+        Returns
+        -------
+        X_original : array-like
+            Original data before transformation.
+        """
         for scaler in reversed(self.scalers):
             X = scaler.inverse_transform(X)
         return X
