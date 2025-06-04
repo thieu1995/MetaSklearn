@@ -9,4 +9,5 @@ __version__ = "0.2.0"
 from mealpy import (IntegerVar, FloatVar, StringVar, BinaryVar, BoolVar,
                     PermutationVar, CategoricalVar, SequenceVar, TransferBinaryVar, TransferBoolVar)
 from metasklearn.utils.data_handler import Data, DataTransformer
+from metasklearn.core.problem import HyperparameterProblem
 from metasklearn.core.search import MetaSearchCV

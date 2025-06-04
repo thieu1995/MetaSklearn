@@ -114,6 +114,6 @@ class HyperparameterProblem(Problem):
             float: The evaluation score for the given configuration.
         """
         x_decoded = self.decode_solution(x)
-        self.model = self.estimator.set_params(**x_decoded)
+        self.estimator.set_params(**x_decoded)
         score = self.get_obj_score_()
         return score
