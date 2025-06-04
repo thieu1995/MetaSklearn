@@ -167,34 +167,43 @@ class DataTransformer(BaseEstimator, TransformerMixin):
             a single dict is expected. If multiple methods are provided,
             a list of parameter dictionaries should be given.
         """
-        if type(scaling_methods) is str:
+        if isinstance(scaling_methods, str):
             if list_dict_paras is None:
                 self.list_dict_paras = [{}]
-            elif type(list_dict_paras) is dict:
+            elif isinstance(list_dict_paras, dict):
                 self.list_dict_paras = [list_dict_paras]
             else:
-                raise TypeError(f"You use only 1 scaling method, the list_dict_paras should be dict of parameter for that scaler.")
+                raise TypeError("Expected a single dict for list_dict_paras when using one scaling method.")
             self.scaling_methods = [scaling_methods]
-        elif type(scaling_methods) in (tuple, list, np.ndarray):
+        elif isinstance(scaling_methods, (list, tuple, np.ndarray)):
             if list_dict_paras is None:
-                self.list_dict_paras = [{}, ]*len(scaling_methods)
-            elif type(list_dict_paras) in (tuple, list, np.ndarray):
+                self.list_dict_paras = [{} for _ in range(len(scaling_methods))]
+            elif isinstance(list_dict_paras, (list, tuple, np.ndarray)):
                 self.list_dict_paras = list(list_dict_paras)
             else:
-                raise TypeError(f"Invalid type of list_dict_paras. Supported type are: tuple, list, or np.ndarray of parameter dict")
+                raise TypeError("list_dict_paras should be a list/tuple of dicts when using multiple scaling methods.")
             self.scaling_methods = list(scaling_methods)
         else:
-            raise TypeError(f"Invalid type of scaling_methods. Supported type are: str, tuple, list, or np.ndarray")
+            raise TypeError("scaling_methods must be a str, list, tuple, or np.ndarray")
 
         self.scalers = [self._get_scaler(technique, paras) for (technique, paras) in zip(self.scaling_methods, self.list_dict_paras)]
 
+    @staticmethod
+    def _ensure_2d(X):
+        X = np.asarray(X)
+        if X.ndim == 1:
+            X = X.reshape(-1, 1)  # convert (n,) to (n, 1)
+        elif X.ndim != 2:
+            raise ValueError(f"Input X must be 1D or 2D, but got shape {X.shape}")
+        return X
+
     def _get_scaler(self, technique, paras):
         if technique in self.SUPPORTED_SCALERS.keys():
-            if type(paras) is not dict:
+            if not isinstance(paras, dict):
                 paras = {}
             return self.SUPPORTED_SCALERS[technique](**paras)
         else:
-            raise ValueError(f"Invalid scaling technique. Supported techniques are {self.SUPPORTED_SCALERS.keys()}")
+            raise ValueError(f"Unsupported scaling technique: '{technique}'. Supported techniques: {list(self.SUPPORTED_SCALERS)}")
 
     def fit(self, X, y=None):
         """
@@ -213,6 +222,7 @@ class DataTransformer(BaseEstimator, TransformerMixin):
         self : object
             Fitted transformer.
         """
+        X = self._ensure_2d(X)
         for idx, _ in enumerate(self.scalers):
             X = self.scalers[idx].fit_transform(X)
         return self
@@ -231,6 +241,7 @@ class DataTransformer(BaseEstimator, TransformerMixin):
         X_transformed : array-like
             Transformed data.
         """
+        X = self._ensure_2d(X)
         for scaler in self.scalers:
             X = scaler.transform(X)
         return X
@@ -249,6 +260,7 @@ class DataTransformer(BaseEstimator, TransformerMixin):
         X_original : array-like
             Original data before transformation.
         """
+        X = self._ensure_2d(X)
         for scaler in reversed(self.scalers):
             X = scaler.inverse_transform(X)
         return X
