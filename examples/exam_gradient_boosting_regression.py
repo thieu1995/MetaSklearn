@@ -21,8 +21,7 @@ data.X_train, scaler_X = data.scale(data.X_train, scaling_methods=("standard", "
 data.X_test = scaler_X.transform(data.X_test)
 
 data.y_train, scaler_y = data.scale(data.y_train, scaling_methods=("standard", "minmax"))
-data.y_train = data.y_train.ravel()
-data.y_test = scaler_y.transform(data.y_test.reshape(-1, 1)).ravel()
+data.y_test = scaler_y.transform(data.y_test)
 
 # Define param bounds
 
@@ -39,15 +38,15 @@ data.y_test = scaler_y.transform(data.y_test.reshape(-1, 1)).ravel()
 # }
 
 param_bounds = [
-    IntegerVar(lb=50, ub=200, name="n_estimators"),  # Số lượng cây trong mô hình
-    FloatVar(lb=0.01, ub=0.2, name="learning_rate"),  # Tốc độ học
-    IntegerVar(lb=2, ub=5, name="max_depth"),  # Độ sâu tối đa của cây
-    IntegerVar(lb=2, ub=10, name="min_samples_split"),  # Số lượng mẫu tối thiểu để một node được chia
-    IntegerVar(lb=1, ub=5, name="min_samples_leaf"),  # Số lượng mẫu tối thiểu tại một node lá
-    StringVar(valid_sets=("sqrt", "log2"), name="max_features"),  # Số đặc trưng tối đa khi tìm split tốt nhất
-    FloatVar(lb=0.5, ub=1.0, name="subsample"),  # Tỉ lệ mẫu được sử dụng để fit base learners
+    IntegerVar(lb=50, ub=200, name="n_estimators"),
+    FloatVar(lb=0.01, ub=0.2, name="learning_rate"),
+    IntegerVar(lb=2, ub=5, name="max_depth"),
+    IntegerVar(lb=2, ub=10, name="min_samples_split"),
+    IntegerVar(lb=1, ub=5, name="min_samples_leaf"),
+    StringVar(valid_sets=("sqrt", "log2"), name="max_features"),
+    FloatVar(lb=0.5, ub=1.0, name="subsample"),
     StringVar(valid_sets=("squared_error", "absolute_error", 'huber'), name="loss"),
-    FloatVar(lb=0.0, ub=0.1, name="ccp_alpha"),  # Tham số điều chỉnh cho pruning
+    FloatVar(lb=0.0, ub=0.1, name="ccp_alpha"),
 ]
 
 # Initialize and fit MetaSearchCV
@@ -61,7 +60,8 @@ searcher = MetaSearchCV(
     scoring="MSE",  # or any custom scoring like "F1_macro"
     seed=42,
     n_jobs=2,
-    verbose=True
+    verbose=True,
+    mode='single', n_workers=None, termination=None
 )
 
 searcher.fit(data.X_train, data.y_train)

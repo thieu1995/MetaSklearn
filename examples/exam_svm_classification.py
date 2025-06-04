@@ -38,7 +38,8 @@ searcher = MetaSearchCV(
     scoring="AS",  # or any custom scoring like "F1_macro"
     seed=42,
     n_jobs=2,
-    verbose=True
+    verbose=True,
+    mode='single', n_workers=None, termination=None
 )
 
 searcher.fit(X_train, y_train)

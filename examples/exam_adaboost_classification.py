@@ -16,7 +16,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 # Define param bounds
 
-# param_grid = {            ==> This is for GridSearchCV, show you how to convert to our MetaSearchCV
+# param_grid = {            ==> This is for GridSearchCV, based on this, you can convert to our MetaSearchCV bounds
 #     'n_estimators': [50, 100, 200],                  # Number of weak learners to use
 #     'learning_rate': [0.01, 0.1, 0.5, 1.0],          # Weight applied to each classifier at each boosting iteration
 #     'base_estimator__max_depth': [1, 3, 5],          # Depth of the base decision tree
@@ -25,11 +25,11 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # }
 
 param_bounds = [
-    IntegerVar(lb=20, ub=100, name="n_estimators"),  # Số lượng weak learners
-    FloatVar(lb=0.01, ub=1.0, name="learning_rate"),  # Tốc độ học
-    IntegerVar(lb=2, ub=5, name="estimator__max_depth"),  # Độ sâu của cây quyết định cơ sở
-    IntegerVar(lb=2, ub=6, name="estimator__min_samples_split"),  # Số lượng mẫu tối thiểu để một node được chia
-    IntegerVar(lb=1, ub=4, name="estimator__min_samples_leaf"),  # Số lượng mẫu tối thiểu tại một node lá
+    IntegerVar(lb=20, ub=100, name="n_estimators"),
+    FloatVar(lb=0.01, ub=1.0, name="learning_rate"),
+    IntegerVar(lb=2, ub=5, name="estimator__max_depth"),
+    IntegerVar(lb=2, ub=6, name="estimator__min_samples_split"),
+    IntegerVar(lb=1, ub=4, name="estimator__min_samples_leaf"),
 ]
 
 # Initialize and fit MetaSearchCV
@@ -43,7 +43,8 @@ searcher = MetaSearchCV(
     scoring="AS",  # or any custom scoring like "F1_macro"
     seed=42,
     n_jobs=2,
-    verbose=True
+    verbose=True,
+    mode='single', n_workers=None, termination=None
 )
 
 searcher.fit(X_train, y_train)

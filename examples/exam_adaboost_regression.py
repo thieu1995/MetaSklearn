@@ -22,8 +22,7 @@ data.X_train, scaler_X = data.scale(data.X_train, scaling_methods=("standard", "
 data.X_test = scaler_X.transform(data.X_test)
 
 data.y_train, scaler_y = data.scale(data.y_train, scaling_methods=("standard", "minmax"))
-data.y_train = data.y_train.ravel()
-data.y_test = scaler_y.transform(data.y_test.reshape(-1, 1)).ravel()
+data.y_test = scaler_y.transform(data.y_test)
 
 # Define param bounds
 
@@ -36,11 +35,11 @@ data.y_test = scaler_y.transform(data.y_test.reshape(-1, 1)).ravel()
 # }
 
 param_bounds = [
-    IntegerVar(lb=20, ub=100, name="n_estimators"),  # Số lượng weak learners
-    FloatVar(lb=0.01, ub=1.0, name="learning_rate"),  # Tốc độ học
-    IntegerVar(lb=2, ub=5, name="estimator__max_depth"),  # Độ sâu của cây quyết định cơ sở
-    IntegerVar(lb=2, ub=6, name="estimator__min_samples_split"),  # Số lượng mẫu tối thiểu để một node được chia
-    IntegerVar(lb=1, ub=4, name="estimator__min_samples_leaf"),  # Số lượng mẫu tối thiểu tại một node lá
+    IntegerVar(lb=20, ub=100, name="n_estimators"),
+    FloatVar(lb=0.01, ub=1.0, name="learning_rate"),
+    IntegerVar(lb=2, ub=5, name="estimator__max_depth"),
+    IntegerVar(lb=2, ub=6, name="estimator__min_samples_split"),
+    IntegerVar(lb=1, ub=4, name="estimator__min_samples_leaf"),
 ]
 
 # Initialize and fit MetaSearchCV
@@ -54,7 +53,8 @@ searcher = MetaSearchCV(
     scoring="MSE",  # or any custom scoring like "F1_macro"
     seed=42,
     n_jobs=2,
-    verbose=True
+    verbose=True,
+    mode='single', n_workers=None, termination=None
 )
 
 searcher.fit(data.X_train, data.y_train)

@@ -15,26 +15,26 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 # Define param bounds
 
-# param_grid = {            ==> This is for GridSearchCV, show you how to convert to our MetaSearchCV
-#     'criterion': ['gini', 'entropy', 'log_loss'],       # Hàm đo mức độ phân tách (classification)
-#     'splitter': ['best', 'random'],                     # Cách chọn cách chia tại mỗi node
-#     'max_depth': [None, 5, 10, 20, 30],                 # Độ sâu tối đa của cây
-#     'min_samples_split': [2, 5, 10],                    # Số lượng mẫu tối thiểu để một node được chia
-#     'min_samples_leaf': [1, 2, 4],                      # Số lượng mẫu tối thiểu tại một node lá
-#     'max_features': [None, 'sqrt', 'log2'],             # Số đặc trưng tối đa khi tìm split tốt nhất
-#     'max_leaf_nodes': [None, 10, 20, 50],               # Giới hạn số lượng node lá
-#     'ccp_alpha': [0.0, 0.01, 0.05, 0.1],                 # Complexity parameter để cắt tỉa cây (post-pruning)
+# param_grid = {            ==> This is for GridSearchCV, base on this, you can convert to our MetaSearchCV bounds
+#     'criterion': ['gini', 'entropy', 'log_loss'],
+#     'splitter': ['best', 'random'],
+#     'max_depth': [None, 5, 10, 20, 30],
+#     'min_samples_split': [2, 5, 10],
+#     'min_samples_leaf': [1, 2, 4],
+#     'max_features': [None, 'sqrt', 'log2'],
+#     'max_leaf_nodes': [None, 10, 20, 50],
+#     'ccp_alpha': [0.0, 0.01, 0.05, 0.1],
 # }
 
 param_bounds = [
-    StringVar(valid_sets=("gini", "entropy", "log_loss"), name="criterion"),  # Hàm đo mức độ phân tách (classification)
-    StringVar(valid_sets=("best", "random"), name="splitter"),  # Cách chọn cách chia tại mỗi node
-    IntegerVar(lb=2, ub=15, name="max_depth"),  # Độ sâu tối đa của cây
-    IntegerVar(lb=2, ub=10, name="min_samples_split"),  # Số lượng mẫu tối thiểu để một node được chia
-    IntegerVar(lb=1, ub=5, name="min_samples_leaf"),  # Số lượng mẫu tối thiểu tại một node lá
-    StringVar(valid_sets=("sqrt", "log2"), name="max_features"),  # Số đặc trưng tối đa khi tìm split tốt nhất
-    IntegerVar(lb=2, ub=30, name="max_leaf_nodes"),  # Giới hạn số lượng node lá
-    FloatVar(lb=0.0, ub=0.1, name="ccp_alpha"),  # Complexity parameter để cắt tỉa cây (post-pruning)
+    StringVar(valid_sets=("gini", "entropy", "log_loss"), name="criterion"),
+    StringVar(valid_sets=("best", "random"), name="splitter"),
+    IntegerVar(lb=2, ub=15, name="max_depth"),
+    IntegerVar(lb=2, ub=10, name="min_samples_split"),
+    IntegerVar(lb=1, ub=5, name="min_samples_leaf"),
+    StringVar(valid_sets=("sqrt", "log2"), name="max_features"),
+    IntegerVar(lb=2, ub=30, name="max_leaf_nodes"),
+    FloatVar(lb=0.0, ub=0.1, name="ccp_alpha"),
 ]
 
 # Initialize and fit MetaSearchCV
@@ -48,7 +48,8 @@ searcher = MetaSearchCV(
     scoring="AS",  # or any custom scoring like "F1_macro"
     seed=42,
     n_jobs=2,
-    verbose=True
+    verbose=True,
+    mode='single', n_workers=None, termination=None
 )
 
 searcher.fit(X_train, y_train)

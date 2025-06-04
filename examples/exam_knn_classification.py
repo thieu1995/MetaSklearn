@@ -16,13 +16,12 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # Define param bounds
 
 # param_grid = {            ==> This is for GridSearchCV, show you how to convert to our MetaSearchCV
-#     'n_neighbors': [2, 3, 5, 7, 9, 11],               # Số lượng hàng xóm gần nhất
-#     'weights': ['uniform', 'distance'],              # Trọng số: đều nhau hoặc theo khoảng cách
-#     'algorithm': ['auto', 'ball_tree', 'kd_tree', 'brute'],  # Thuật toán tìm kiếm
-#     'leaf_size': [10, 20, 30, 40, 50],               # Kích thước node lá, ảnh hưởng đến performance
-#     'p': [1, 2],                                     # Tham số cho khoảng cách Minkowski: 1 (Manhattan), 2 (Euclidean)
-#     'metric': ['minkowski'],                         # Khoảng cách sử dụng; thường dùng 'minkowski' kết hợp với p
-#     # Có thể thêm các metric khác nếu cần như 'euclidean', 'manhattan', 'chebyshev', 'mahalanobis'
+#     'n_neighbors': [2, 3, 5, 7, 9, 11],
+#     'weights': ['uniform', 'distance'],
+#     'algorithm': ['auto', 'ball_tree', 'kd_tree', 'brute'],
+#     'leaf_size': [10, 20, 30, 40, 50],
+#     'p': [1, 2],
+#     'metric': ['minkowski'],
 # }
 
 param_bounds = [
@@ -31,7 +30,7 @@ param_bounds = [
     StringVar(valid_sets=("auto", "ball_tree", "kd_tree", "brute"), name="algorithm"),
     IntegerVar(lb=10, ub=50, name="leaf_size"),
     IntegerVar(lb=1, ub=2, name="p"),  # 1 (Manhattan), 2 (Euclidean)
-    StringVar(valid_sets=("minkowski", "manhattan"), name="metric"),  # Khoảng cách sử dụng; thường dùng 'minkowski' kết hợp với p
+    StringVar(valid_sets=("minkowski", "manhattan"), name="metric"),
 ]
 
 # Initialize and fit MetaSearchCV
@@ -45,7 +44,8 @@ searcher = MetaSearchCV(
     scoring="AS",  # or any custom scoring like "F1_macro"
     seed=42,
     n_jobs=2,
-    verbose=True
+    verbose=True,
+    mode='single', n_workers=None, termination=None
 )
 
 searcher.fit(X_train, y_train)
