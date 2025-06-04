@@ -46,6 +46,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -U --no-index --find-links=deps deps/*
+          pip install pytest pytest-cov flake8
 
       - name: Run tests
         run: |
