@@ -24,7 +24,7 @@ It is designed to be user-friendly and efficient, making it easy to integrate in
 
 ## 🚀 Features
 
-- ✅ Hyperparameter optimization by **metaheuristic algorithms** with `mealpy`.
+- ✅ Hyperparameter optimization by **metaheuristic algorithms** with [`mealpy`](https://github.com/thieu1995/mealpy).
 - ✅ Compatible with any **scikit-learn** model (SVM, RandomForest, XGBoost, etc.)
 - ✅ Supports **classification** and **regression** tasks
 - ✅ Custom and scikit-learn scoring support
@@ -34,13 +34,13 @@ It is designed to be user-friendly and efficient, making it easy to integrate in
 
 ## 📦 Installation
 
-You can install the library using `pip` (once published to PyPI):
+Install the latest version using pip:
 
 ```bash
 pip install metasklearn
 ```
 
-After installation, you can import `MetaSklearn` as any other Python module:
+After that, check the version to ensure successful installation:
 
 ```sh
 $ python
@@ -106,7 +106,8 @@ searcher = MetaSearchCV(
     scoring="MSE",  # or any custom scoring like "F1_macro"
     seed=42,
     n_jobs=2,
-    verbose=True
+    verbose=True,
+    mode='single', n_workers=None, termination=None
 )
 
 searcher.fit(data.X_train, data.y_train)
@@ -157,7 +158,8 @@ searcher = MetaSearchCV(
     scoring="AS",  # or any custom scoring like "F1_macro"
     seed=42,
     n_jobs=2,
-    verbose=True
+    verbose=True,
+    mode='single', n_workers=None, termination=None
 )
 
 searcher.fit(X_train, y_train)
@@ -340,7 +342,7 @@ Please include these citations if you plan to use this library:
 @software{thieu20250510MetaSklearn,
   author       = {Nguyen Van Thieu},
   title        = {MetaSklearn: A Metaheuristic-Powered Hyperparameter Optimization Framework for Scikit-Learn Models},
-  month        = may,
+  month        = June,
   year         = 2025,
   doi         = {10.6084/m9.figshare.28978805},
   url          = {https://github.com/thieu1995/MetaSklearn}
