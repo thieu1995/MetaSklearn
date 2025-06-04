@@ -6,7 +6,7 @@ Installation
 
 .. code-block:: bash
 
-    $ pip install metasklearn==0.2.0
+    $ pip install metasklearn==0.3.0
 
 
 * Install directly from source code.

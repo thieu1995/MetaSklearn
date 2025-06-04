@@ -6,7 +6,7 @@
 Welcome to MetaSklearn's documentation!
 =======================================
 
-.. image:: https://img.shields.io/badge/release-0.2.0-yellow.svg
+.. image:: https://img.shields.io/badge/release-0.3.0-yellow.svg
    :target: https://github.com/thieu1995/MetaSklearn/releases
 
 .. image:: https://badge.fury.io/py/metasklearn.svg

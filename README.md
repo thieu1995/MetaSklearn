@@ -1,6 +1,6 @@
 # MetaSklearn: A Metaheuristic-Powered Hyperparameter Optimization Framework for Scikit-Learn Models.
 
-[![GitHub release](https://img.shields.io/badge/release-0.2.0-yellow.svg)](https://github.com/thieu1995/MetaSklearn/releases)
+[![GitHub release](https://img.shields.io/badge/release-0.3.0-yellow.svg)](https://github.com/thieu1995/MetaSklearn/releases)
 [![PyPI version](https://badge.fury.io/py/metasklearn.svg)](https://badge.fury.io/py/metasklearn)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/metasklearn.svg)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/metasklearn.svg)
