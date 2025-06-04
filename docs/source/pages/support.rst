@@ -7,7 +7,7 @@ Please include these citations if you plan to use this library::
     @software{thieu20250510MetaSklearn,
         author       = {Nguyen Van Thieu},
         title        = {MetaSklearn: A Metaheuristic-Powered Hyperparameter Optimization Framework for Scikit-Learn Models},
-        month        = may,
+        month        = June,
         year         = 2025,
         doi         = {10.6084/m9.figshare.28978805},
         url          = {https://github.com/thieu1995/MetaSklearn}
