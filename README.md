@@ -5,7 +5,7 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/metasklearn.svg)
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/metasklearn.svg)
 [![Downloads](https://pepy.tech/badge/metasklearn)](https://pepy.tech/project/metasklearn)
-[![Tests & Publishes to PyPI](https://github.com/thieu1995/MetaSklearn/actions/workflows/publish-package.yaml/badge.svg)](https://github.com/thieu1995/MetaSklearn/actions/workflows/publish-package.yaml)
+[![Tests & Publishes to PyPI](https://github.com/thieu1995/MetaSklearn/actions/workflows/publish-package.yml/badge.svg)](https://github.com/thieu1995/MetaSklearn/actions/workflows/publish-package.yml)
 [![Documentation Status](https://readthedocs.org/projects/metasklearn/badge/?version=latest)](https://metasklearn.readthedocs.io/en/latest/?badge=latest)
 [![Chat](https://img.shields.io/badge/Chat-on%20Telegram-blue)](https://t.me/+fRVCJGuGJg1mNDg1)
 [![DOI](https://img.shields.io/badge/DOI-10.6084%2Fm9.figshare.28978805-blue)](https://doi.org/10.6084/m9.figshare.28978805)

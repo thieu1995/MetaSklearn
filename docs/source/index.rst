@@ -18,8 +18,8 @@ Welcome to MetaSklearn's documentation!
 .. image:: https://img.shields.io/pypi/dm/metasklearn.svg
    :target: https://img.shields.io/pypi/dm/metasklearn.svg
 
-.. image:: https://github.com/thieu1995/MetaSklearn/actions/workflows/publish-package.yaml/badge.svg
-   :target: https://github.com/thieu1995/MetaSklearn/actions/workflows/publish-package.yaml
+.. image:: https://github.com/thieu1995/MetaSklearn/actions/workflows/publish-package.yml/badge.svg
+   :target: https://github.com/thieu1995/MetaSklearn/actions/workflows/publish-package.yml
 
 .. image:: https://pepy.tech/badge/metasklearn
    :target: https://pepy.tech/project/metasklearn
